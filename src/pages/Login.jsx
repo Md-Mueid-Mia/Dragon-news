@@ -1,18 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
 
 const Login = () => {
-
-    const handleSubmit= e =>{
-        e.preventDefault();
-        const email = e.target.email.value;
-        const password = e.target.password.value;
-        console.log(email,password);
-    }
+    const {userLogin}= useContext(AuthContext);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email, password);
+    userLogin(email, password)
+    .then(result=>{
+        console.log(result.user);
+    })
+    .catch(error=>{
+        console.log(error.massage);
+    })
+  };
   return (
     <div className="min-h-[calc(100vh-80px)] flex justify-center items-center">
       <div className="card bg-base-100 w-full max-w-lg shrink-0 shadow-2xl rounded-none">
-        <h2 className="font-semibold text-3xl py-5 text-center">Login your account</h2>
+        <h2 className="font-semibold text-3xl py-5 text-center">
+          Login your account
+        </h2>
         <div className="divider"></div>
         <form onSubmit={handleSubmit} className="card-body pt-0">
           <div className="form-control">
@@ -20,7 +30,7 @@ const Login = () => {
               <span className="label-text">Email</span>
             </label>
             <input
-            name="email"
+              name="email"
               type="email"
               placeholder="email"
               className="input input-bordered"
@@ -32,7 +42,7 @@ const Login = () => {
               <span className="label-text">Password</span>
             </label>
             <input
-            name="password"
+              name="password"
               type="password"
               placeholder="password"
               className="input input-bordered"
@@ -48,7 +58,12 @@ const Login = () => {
             <button className="btn btn-neutral rounded-none">Login</button>
           </div>
         </form>
-        <p className="font-semibold text-center pb-5">Dont’t Have An Account ? <Link className="text-red-500" to={'/auth/register'}>Register</Link></p>
+        <p className="font-semibold text-center pb-5">
+          Don’t Have An Account ?{" "}
+          <Link className="text-red-500" to={"/auth/register"}>
+            Register
+          </Link>
+        </p>
       </div>
     </div>
   );
